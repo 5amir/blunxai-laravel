@@ -29,7 +29,10 @@
     },
     "authors": [
         {
-            "name": "Amir BOUSSARI Olouwa cheoun"
+            "name": "Amir BOUSSARI Olouwa cheoun",
+            "email": "awillosse@gmail.com",
+            "homepage": "https://github.com/5amir/blunxai-laravel",
+            "role": "Developer"
         }
     ],
     "minimum-stability": "stable",
