@@ -1,0 +1,42 @@
+{
+    "name": "blunx/ai",
+    "description": "Business Intelligence AI Agent for Laravel — natural language queries, dashboards and automated insights on your database.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "ai",
+        "business-intelligence",
+        "bi",
+        "nlp",
+        "sql",
+        "insights",
+        "dashboard",
+        "chat"
+    ],
+    "homepage": "https://blunxai.com",
+    "autoload": {
+        "psr-4": {
+            "Blunx\\AI\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Blunx\\AI\\BlunxServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Amir BOUSSARI Olouwa cheoun"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.10",
+        "barryvdh/laravel-dompdf": "^3.1"
+    }
+}
