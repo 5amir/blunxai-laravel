@@ -1,58 +1,58 @@
 <?php
 
 /**
- * Configuration des droits d'accès pour Blunx AI
- * 
- * Ce fichier définit les restrictions d'accès par RÔLE.
- * Approche NÉGATIVE : vous définissez ce que le user N'A PAS le droit de voir.
- * 
- * Trois niveaux de restriction :
- * - forbidden_tables : Tables auxquelles le rôle n'a pas accès
- * - forbidden_columns : Colonnes spécifiques par table auxquelles le rôle n'a pas accès
- * - row_level : Filtrage automatique des lignes (ex: WHERE user_id = X)
+ * Access rules configuration for Blunx AI
+ *
+ * This file defines access restrictions by ROLE.
+ * NEGATIVE approach: you define what a user is NOT allowed to see.
+ *
+ * Three restriction levels:
+ * - forbidden_tables: tables the role cannot access
+ * - forbidden_columns: specific columns per table the role cannot access
+ * - row_level: automatic row filtering (e.g. WHERE user_id = X)
  */
 
 return [
     /*
     |--------------------------------------------------------------------------
-    | Règles d'accès par rôle
+    | Access rules per role
     |--------------------------------------------------------------------------
     |
-    | Ajoutez vos rôles ici. Chaque rôle peut avoir :
-    | - forbidden_tables : tableau de tables interdites
-    | - forbidden_columns : tableau [table => [colonnes interdites]]
-    | - row_level : tableau [table => filtre] pour filtrer les lignes
+    | Add your roles here. Each role can have:
+    | - forbidden_tables: array of forbidden tables
+    | - forbidden_columns: array [table => [forbidden columns]]
+    | - row_level: array [table => filter] to filter rows
     |
-    | Exemples :
+    | Examples:
     |
-    | 'vendeur' => [
-    |     'forbidden_tables' => ['salaires', 'comptabilite'],
+    | 'vendor' => [
+    |     'forbidden_tables' => ['salaries', 'accounting'],
     |     'forbidden_columns' => [
-    |         'users' => ['salaire', 'numero_secu'],
-    |         'orders' => ['marge'],
+    |         'users' => ['salary', 'social_security_number'],
+    |         'orders' => ['margin'],
     |     ],
     |     'row_level' => [
-    |         'orders' => ['column' => 'user_id', 'value' => 'USER_ID'],  // USER_ID sera remplacé par l'ID de l'utilisateur
+    |         'orders' => ['column' => 'user_id', 'value' => 'USER_ID'],  // USER_ID is replaced with the user's ID
     |     ],
     | ],
     |
     */
 
     'vendor' => [
-        // Tables complètement interdites
+        // Completely forbidden tables
         'forbidden_tables' => [
-            // 'salaires',
-            // 'comptabilite',
+            // 'salaries',
+            // 'accounting',
         ],
         
-        // Colonnes interdites par table (mettre '*' pour toutes les tables)
+        // Forbidden columns per table (use '*' for all tables)
         'forbidden_columns' => [
-            // 'users' => ['salaire', 'numero_secu', 'adresse_complete'],
-            // '*' => ['mot_de_passe', 'token_api'],
+            // 'users' => ['salary', 'social_security_number', 'full_address'],
+            // '*' => ['password', 'api_token'],
         ],
         
-        // Filtrage automatique des lignes
-        // Utiliser 'USER_ID' comme placeholder qui sera remplacé par l'ID de l'utilisateur connecté
+        // Automatic row filtering
+        // Use 'USER_ID' as a placeholder, replaced with the authenticated user's ID
         'row_level' => [
             // 'orders' => ['column' => 'user_id', 'value' => 'USER_ID'],
             // 'products' => ['column' => 'vendor_id', 'value' => 'USER_ID'],
@@ -62,7 +62,7 @@ return [
     'manager' => [
         'forbidden_tables' => [],
         'forbidden_columns' => [
-            // 'users' => ['salaire'],
+            // 'users' => ['salary'],
         ],
         'row_level' => [],
     ],
@@ -75,11 +75,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Configuration globale
+    | Global configuration
     |--------------------------------------------------------------------------
     */
     
-    // Par défaut, si pas de rôle défini, appliquer ces règles
+    // By default, when no role matches, apply these rules
     'default' => [
         'forbidden_tables' => [
             'users',
@@ -88,6 +88,6 @@ return [
         'row_level' => [],
     ],
 
-    // Activer/désactiver le système de permissions
+    // Enable/disable the permission system
     'enabled' => true,
 ];
