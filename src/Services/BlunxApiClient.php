@@ -26,16 +26,16 @@ class BlunxApiClient
     public function __construct()
     {
         $this->baseUrl      = rtrim(config('blunx.server_url'), '/');
-        $this->apiKey       = config('blunx.api_key');
-        $this->llmApiKey    = config('blunx.llm_api_key');
-        $this->db_connection= config('blunx.db_connection');
+        $this->apiKey       = config('blunx.api_key', '');
+        $this->llmApiKey    = config('blunx.llm_api_key', '');
+        $this->db_connection= config('blunx.db_connection', 'mysql');
         $this->locale       = config('blunx.locale', 'fr');
         $this->currency     = config('blunx.currency', []);
         $this->llmConfig    = [
             'driver'               => config('blunx.llm.driver', 'openai'),
-            'endpoint'             => config('blunx.llm.endpoint'),
+            'endpoint'             => config('blunx.llm.endpoint', ''),
             // 'api_key' is removed from the body: it goes in the X-Blunx-LLM-Key header
-            'model'                => config('blunx.llm.model'),
+            'model'                => config('blunx.llm.model', ''),
             'supports_json_format' => config('blunx.llm.supports_json_format', true),
         ];
     }
