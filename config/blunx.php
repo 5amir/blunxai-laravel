@@ -8,6 +8,12 @@ return [
     // Application API key (generated from the BlunxAI dashboard)
     'api_key'    => env('BLUNX_API_KEY'),
     'llm_api_key' => env('BLUNX_LLM_API_KEY'),
+
+    // Timeout (seconds) for every request sent to the BlunxAI Hub — SSE chat
+    // streams AND JSON endpoints (insights/schema/reference). LLM reasoning can
+    // take minutes, so it defaults to 600 (10 minutes). 0 = no timeout: an SSE
+    // stream then ends only when the Hub closes it or sends an `error` event.
+    'request_timeout' => env('BLUNX_REQUEST_TIMEOUT', 600),
     'db_connection' => env('BLUNX_DB_CONNECTION'),
 
     // Database connection URL (DSN) — alternative to separate credentials.

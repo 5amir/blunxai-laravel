@@ -899,7 +899,11 @@ class BlunxApiController extends Controller
         while (ob_get_level() > 0) {
             ob_end_clean();
         }
-        set_time_limit(180);
+        // Allow the whole SSE proxy (several successive Hub calls can stack) to
+        // run up to the configured request timeout (default 600 s = 10 min).
+        // 0 = unlimited. On Linux, PHP's max_execution_time counts CPU time, so
+        // blocking I/O (reading the Hub stream) is not counted against it.
+        set_time_limit((int) config('blunx.request_timeout', 600));
     }
 
     /**
@@ -930,6 +934,7 @@ class BlunxApiController extends Controller
             (string) config('blunx.llm_api_key'),
             $onStep,
             $onResult,
+            (int) config('blunx.request_timeout', 600),
         );
     }
 

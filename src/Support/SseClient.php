@@ -19,6 +19,9 @@ class SseClient
      * @param  string   $llmApiKey LLM key (X-Blunx-LLM-Key header).
      * @param  callable $onStep    fn(array $d) → `step` event.
      * @param  callable $onResult  fn(array $d) → `result` event.
+     * @param  int|null $timeout   Total timeout in seconds; 0 = never cut by
+     *                             time (only a Hub close or `error` ends the
+     *                             stream). Defaults to 600 s (10 min).
      * @return string|null null on success, otherwise the error message.
      */
     public static function consume(
@@ -28,6 +31,7 @@ class SseClient
         string   $llmApiKey,
         callable $onStep,
         callable $onResult,
+        ?int     $timeout = 600,
     ): ?string {
         $buffer   = '';
         $errorMsg = null;
@@ -45,7 +49,6 @@ class SseClient
                 'X-Blunx-Key: ' . $apiKey,
                 'X-Blunx-LLM-Key: ' . $llmApiKey,
             ],
-            CURLOPT_TIMEOUT        => 150,
             CURLOPT_WRITEFUNCTION  => function ($ch, $chunk) use (&$buffer, &$errorMsg, $onStep, $onResult) {
                 $buffer .= $chunk;
 
@@ -77,6 +80,14 @@ class SseClient
                 return strlen($chunk);
             },
         ]);
+
+        // Total timeout for the whole stream (seconds). 0 = the stream is never
+        // interrupted by elapsed time — it ends only when the Hub closes it or
+        // emits an `error` event (heavy LLM reasoning can take several minutes,
+        // so the old 150 s cap used to cut such questions prematurely).
+        if ($timeout > 0) {
+            curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        }
 
         curl_exec($ch);
         $httpCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);

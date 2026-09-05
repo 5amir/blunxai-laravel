@@ -59,7 +59,7 @@ class BlunxApiClient
     protected function post(string $endpoint, array $data): array
     {
 
-        $response = Http::timeout(150)
+        $response = Http::timeout((int) config('blunx.request_timeout', 600))
             ->withHeaders([
                 'X-Blunx-Key'     => $this->apiKey,
                 'X-Blunx-LLM-Key' => $this->llmApiKey,
